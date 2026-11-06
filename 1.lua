@@ -2342,7 +2342,6 @@ _G.GTLMODConfig = _G.GTLMODConfig or {
     WallVehicle = false,
     wallhackng = false, 
     BlackSky = false,
-
 }
 
 -- CONTAINS FULLY OPTIMIZED SYSTEM STATE WITH FREE RAM
@@ -2357,8 +2356,7 @@ _G.GTLMODState = _G.GTLMODState or {
     CustomTextData = {
         OuterSpeed = 10, InnerSpeed = 10, HRecoil = 0.3, VRecoil = 0.3, IpadViewFOV = 120,
         Esp9_LineThick = 1,
-
-
+    },
     PrevGraphicsState = {},
 }
 
@@ -4167,6 +4165,7 @@ end
 
 -- ============================================================
 -- UNIFIED BOT DETECTION (replaces 3 duplicate implementations)
+-- Used by: ESP scan, AimBot, ESP Counter
 -- Cache: per-pawn result stored in _G.BotStatusCache[id]
 -- Also stores in markData.AK_IS_BOT when markData is provided
 -- ============================================================
@@ -4549,9 +4548,6 @@ function _G.InitModMenuTab()
             { Key = "ModMenu_ESPOutline_Ex", UI = AliasMap.TitleSwitcher, Text = "▶ ESP OUTLINE", ExpandIndex = 0, GetFunc = function() return _G.GTLMODConfig.EspOutline end, SetFunc = function(c,v) _G.GTLMODConfig.EspOutline = v return true end },
             { Key = "ModMenu_ESPOutline_Thickness", UI = AliasMap.Slider, Text = "   Outline Thickness (1% is perfect)", ExpandHandle = "ModMenu_ESPOutline_Ex", MinValue = 1, MaxValue = 20, min = 1, max = 20, GetFunc = function() return _G.GTLMODConfig.OutlineThickness end, SetFunc = function(c,v) _G.GTLMODConfig.OutlineThickness = v return true end }
         }
-
-
-        local StackMagicBullet = {}
 
         -- ==================== COMBAT GRAPHIC ====================
         local StackCombatGraphic = {
@@ -5297,8 +5293,6 @@ local function UndoColorBodyV2(enemy, markData)
         end
     end)
 end
-
-
 -- ========================================== 
 -- MAIN LOOP: EXTREMELY POWERFUL OPTIMIZED
 -- ========================================== 
@@ -8313,8 +8307,6 @@ end
                             SafeRemoveMark(data.distMark)
                         end
 
-                        end
-
                         if _G.BotStatusCache and _G.BotStatusCache[key] then
                             _G.BotStatusCache[key] = nil
                         end
@@ -8733,8 +8725,6 @@ local function FastTick()
         ticker.AddTimerOnce(loopDelay, FastTick)
     end
 end
-
-
 -- ========================================== 
 -- ESP V2 RENDER LOOP: high-frequency (~60 FPS / 0.016s)
 -- Position/Line/Skeleton yahan real-time update hote hain -- MainLoop (0.4s) se
